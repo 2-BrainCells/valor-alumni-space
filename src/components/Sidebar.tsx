@@ -41,12 +41,14 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
           {navItems.map((item, index) => {
             const isActive = location.pathname === item.path;
             return (
-              <motion.div key={item.label}>
+              <motion.div 
+                key={item.label}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
                 <Link
                   to={item.path}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
                     isActive
                       ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
@@ -77,12 +79,14 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
           {navItems.map((item, index) => {
             const isActive = location.pathname === item.path;
             return (
-              <motion.div key={item.label}>
+              <motion.div 
+                key={item.label}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
                 <Link
                   to={item.path}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
                     isActive
                       ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
