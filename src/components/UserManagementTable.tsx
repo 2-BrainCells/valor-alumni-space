@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Search, Filter, Download, Eye, Edit, Ban, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -89,13 +88,13 @@ const UserManagementTable = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    const variants = {
+    const variants: Record<string, "default" | "destructive" | "outline" | "secondary"> = {
       Active: 'default',
       Suspended: 'destructive',
       Pending: 'secondary',
     };
     return (
-      <Badge variant={variants[status as keyof typeof variants] || 'default'}>
+      <Badge variant={variants[status] || 'outline'}>
         {status}
       </Badge>
     );
