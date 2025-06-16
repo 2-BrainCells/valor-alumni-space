@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import DashboardHeader from '../components/DashboardHeader';
+import Sidebar from '../components/Sidebar';
 import ConversationsList from '../components/ConversationsList';
 import ChatArea from '../components/ChatArea';
 
@@ -23,6 +25,7 @@ interface Message {
 }
 
 const Messages = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [conversations] = useState<Conversation[]>([
     {
       id: '1',
@@ -135,49 +138,73 @@ const Messages = () => {
   const activeConv = conversations.find(c => c.id === activeConversation);
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Conversations Sidebar */}
-      <motion.div
-        initial={false}
-        animate={{
-          width: isMobileView ? (showConversations ? '100%' : '0%') : '30%',
-          opacity: isMobileView ? (showConversations ? 1 : 0) : 1
-        }}
-        className={`bg-white border-r border-gray-200 ${
-          isMobileView && !showConversations ? 'hidden' : 'block'
-        }`}
-      >
-        <ConversationsList
-          conversations={conversations}
-          activeConversation={activeConversation}
-          onConversationSelect={handleConversationSelect}
-        />
-      </motion.div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <DashboardHeader 
+        sidebarOpen={sidebarOpen} 
+        setSidebarOpen={setSidebarOpen} 
+      />
+      
+      <div className="flex">
+        {/* Sidebar */}
+        <Sidebar isOpen={sidebarOpen} />
+        
+        {/* Main Content */}
+        <main className="flex-1 lg:ml-64">
+          <div className="flex h-[calc(100vh-4rem)] bg-gray-50">
+            {/* Conversations Sidebar */}
+            <motion.div
+              initial={false}
+              animate={{
+                width: isMobileView ? (showConversations ? '100%' : '0%') : '30%',
+                opacity: isMobileView ? (showConversations ? 1 : 0) : 1
+              }}
+              className={`bg-white border-r border-gray-200 ${
+                isMobileView && !showConversations ? 'hidden' : 'block'
+              }`}
+            >
+              <ConversationsList
+                conversations={conversations}
+                activeConversation={activeConversation}
+                onConversationSelect={handleConversationSelect}
+              />
+            </motion.div>
 
-      {/* Chat Area */}
-      <motion.div
-        initial={false}
-        animate={{
-          width: isMobileView ? (showConversations ? '0%' : '100%') : '70%',
-          opacity: isMobileView ? (showConversations ? 0 : 1) : 1
-        }}
-        className={`flex flex-col ${
-          isMobileView && showConversations ? 'hidden' : 'block'
-        }`}
-      >
-        {activeConv && (
-          <ChatArea
-            conversation={activeConv}
-            messages={messages}
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            onSendMessage={handleSendMessage}
-            isTyping={isTyping}
-            isMobileView={isMobileView}
-            onBackToConversations={handleBackToConversations}
-          />
-        )}
-      </motion.div>
+            {/* Chat Area */}
+            <motion.div
+              initial={false}
+              animate={{
+                width: isMobileView ? (showConversations ? '0%' : '100%') : '70%',
+                opacity: isMobileView ? (showConversations ? 0 : 1) : 1
+              }}
+              className={`flex flex-col ${
+                isMobileView && showConversations ? 'hidden' : 'block'
+              }`}
+            >
+              {activeConv && (
+                <ChatArea
+                  conversation={activeConv}
+                  messages={messages}
+                  newMessage={newMessage}
+                  setNewMessage={setNewMessage}
+                  onSendMessage={handleSendMessage}
+                  isTyping={isTyping}
+                  isMobileView={isMobileView}
+                  onBackToConversations={handleBackToConversations}
+                />
+              )}
+            </motion.div>
+          </div>
+        </main>
+      </div>
+      
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 };
