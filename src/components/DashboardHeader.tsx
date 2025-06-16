@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Search, Bell, User, Menu, ChevronDown } from 'lucide-react';
 
 interface DashboardHeaderProps {
@@ -25,14 +26,14 @@ const DashboardHeader = ({ sidebarOpen, setSidebarOpen }: DashboardHeaderProps) 
           </button>
           
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AN</span>
             </div>
             <span className="hidden sm:block text-xl font-semibold text-gray-800">
               AlumniNet
             </span>
-          </div>
+          </Link>
         </div>
 
         {/* Center - Search Bar */}
@@ -82,16 +83,16 @@ const DashboardHeader = ({ sidebarOpen, setSidebarOpen }: DashboardHeaderProps) 
                 exit={{ opacity: 0, y: 10 }}
                 className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
               >
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Profile
-                </a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  Settings
-                </a>
+                </Link>
+                <Link to="/admin" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Admin Settings
+                </Link>
                 <hr className="my-2" />
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <Link to="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Sign out
-                </a>
+                </Link>
               </motion.div>
             )}
           </div>
