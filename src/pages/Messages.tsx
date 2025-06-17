@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import DashboardHeader from '../components/DashboardHeader';
@@ -158,12 +159,12 @@ const Messages = () => {
         />
       )}
       
-      <div className="flex">
+      <div className="flex h-screen">
         {/* Desktop Sidebar */}
         {!isMobile && <Sidebar isOpen={sidebarOpen} />}
         
         {/* Main Content */}
-        <main className={`flex-1 ${!isMobile ? 'lg:ml-64' : ''} ${isMobile ? 'pb-16' : ''}`}>
+        <main className={`flex-1 ${!isMobile ? 'lg:ml-64' : ''} ${isMobile ? 'pb-16' : ''} overflow-hidden`}>
           <PullToRefresh onRefresh={handleRefresh}>
             <div className={`flex ${isMobile ? 'h-screen' : 'h-[calc(100vh-4rem)]'} bg-gray-50`}>
               {/* Conversations Sidebar */}
@@ -175,7 +176,7 @@ const Messages = () => {
                 }}
                 className={`bg-white border-r border-gray-200 ${
                   isMobile && !showConversations ? 'hidden' : 'block'
-                }`}
+                } overflow-hidden`}
               >
                 <ConversationsList
                   conversations={conversations}
@@ -193,7 +194,7 @@ const Messages = () => {
                 }}
                 className={`flex flex-col ${
                   isMobile && showConversations ? 'hidden' : 'block'
-                }`}
+                } overflow-hidden`}
               >
                 {activeConv && (
                   <ChatArea

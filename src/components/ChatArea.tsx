@@ -5,6 +5,7 @@ import { ArrowLeft, MoreVertical, Smile, Paperclip, Send } from 'lucide-react';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { ScrollArea } from './ui/scroll-area';
 import MessageBubble from './MessageBubble';
 import TypingIndicator from './TypingIndicator';
 
@@ -46,9 +47,15 @@ const ChatArea = ({
 }: ChatAreaProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (scrollAreaRef.current) {
+      const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }
   }, [messages]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -76,7 +83,7 @@ const ChatArea = ({
   return (
     <div className="flex flex-col h-full bg-white">
       {/* Chat Header */}
-      <div className="p-4 border-b border-gray-200 bg-white">
+      <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
         <div className="flex items-center space-x-3">
           {isMobileView && (
             <Button
@@ -115,23 +122,25 @@ const ChatArea = ({
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message, index) => (
-          <MessageBubble
-            key={message.id}
-            message={message}
-            isOwn={message.senderId === 'me'}
-            showAvatar={index === 0 || messages[index - 1].senderId !== message.senderId}
-            senderName={message.senderId !== 'me' ? conversation.name : undefined}
-          />
-        ))}
-        
-        {isTyping && <TypingIndicator />}
-        <div ref={messagesEndRef} />
-      </div>
+      <ScrollArea ref={scrollAreaRef} className="flex-1 px-4">
+        <div className="py-4 space-y-4">
+          {messages.map((message, index) => (
+            <MessageBubble
+              key={message.id}
+              message={message}
+              isOwn={message.senderId === 'me'}
+              showAvatar={index === 0 || messages[index - 1].senderId !== message.senderId}
+              senderName={message.senderId !== 'me' ? conversation.name : undefined}
+            />
+          ))}
+          
+          {isTyping && <TypingIndicator />}
+          <div ref={messagesEndRef} />
+        </div>
+      </ScrollArea>
 
       {/* Message Input */}
-      <div className="p-4 border-t border-gray-200 bg-white">
+      <div className="p-4 border-t border-gray-200 bg-white flex-shrink-0">
         <div className="flex items-end space-x-2">
           <Button variant="ghost" size="icon" className="mb-2">
             <Paperclip className="h-5 w-5" />

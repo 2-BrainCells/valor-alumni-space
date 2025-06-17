@@ -3,8 +3,11 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const AdminCharts = () => {
+  const isMobile = useIsMobile();
+
   const userRegistrationData = [
     { month: 'Jan', users: 120 },
     { month: 'Feb', users: 152 },
@@ -39,25 +42,32 @@ const AdminCharts = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
       {/* User Registrations Line Chart */}
       <Card>
         <CardHeader>
-          <CardTitle>User Registrations Over Time</CardTitle>
+          <CardTitle className={isMobile ? 'text-base' : 'text-lg'}>User Registrations Over Time</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-80">
+          <ChartContainer config={chartConfig} className={isMobile ? 'h-64' : 'h-80'}>
             <LineChart data={userRegistrationData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
+              <XAxis 
+                dataKey="month" 
+                fontSize={isMobile ? 10 : 12}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
+              <YAxis 
+                fontSize={isMobile ? 10 : 12}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line 
                 type="monotone" 
                 dataKey="users" 
                 stroke="var(--color-users)" 
-                strokeWidth={3}
-                dot={{ fill: "var(--color-users)", strokeWidth: 2, r: 4 }}
+                strokeWidth={isMobile ? 2 : 3}
+                dot={{ fill: "var(--color-users)", strokeWidth: 2, r: isMobile ? 3 : 4 }}
               />
             </LineChart>
           </ChartContainer>
@@ -67,25 +77,31 @@ const AdminCharts = () => {
       {/* Job Categories Pie Chart */}
       <Card>
         <CardHeader>
-          <CardTitle>Job Categories Distribution</CardTitle>
+          <CardTitle className={isMobile ? 'text-base' : 'text-lg'}>Job Categories Distribution</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-80">
+          <div className={isMobile ? 'h-64' : 'h-80'}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={jobCategoriesData}
                   cx="50%"
                   cy="50%"
-                  outerRadius={80}
+                  outerRadius={isMobile ? 60 : 80}
                   dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={isMobile ? false : ({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 >
                   {jobCategoriesData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <ChartTooltip />
+                {isMobile && (
+                  <Legend 
+                    wrapperStyle={{ fontSize: '12px' }}
+                    iconSize={8}
+                  />
+                )}
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -93,18 +109,25 @@ const AdminCharts = () => {
       </Card>
 
       {/* Monthly Activity Bar Chart */}
-      <Card className="lg:col-span-2">
+      <Card className={isMobile ? 'col-span-1' : 'lg:col-span-2'}>
         <CardHeader>
-          <CardTitle>Monthly Activity Metrics</CardTitle>
+          <CardTitle className={isMobile ? 'text-base' : 'text-lg'}>Monthly Activity Metrics</CardTitle>
         </CardHeader>
         <CardContent>
-          <ChartContainer config={chartConfig} className="h-80">
+          <ChartContainer config={chartConfig} className={isMobile ? 'h-64' : 'h-80'}>
             <BarChart data={monthlyActivityData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
+              <XAxis 
+                dataKey="month" 
+                fontSize={isMobile ? 10 : 12}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
+              <YAxis 
+                fontSize={isMobile ? 10 : 12}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+              />
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
+              {!isMobile && <Legend />}
               <Bar dataKey="logins" fill="var(--color-logins)" />
               <Bar dataKey="jobViews" fill="var(--color-jobViews)" />
               <Bar dataKey="applications" fill="var(--color-applications)" />
