@@ -1,8 +1,7 @@
-
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SwipeableJobCard from './SwipeableJobCard';
-import { Haptics, ImpactStyle } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 interface Job {
   id: number;

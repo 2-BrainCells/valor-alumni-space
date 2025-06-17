@@ -26,7 +26,7 @@ const NetworkStatusIndicator = () => {
         const status = await Network.getStatus();
         setIsOnline(status.connected);
 
-        const listener = Network.addListener('networkStatusChange', (status) => {
+        const listener = await Network.addListener('networkStatusChange', (status) => {
           if (status.connected !== isOnline) {
             setIsOnline(status.connected);
             setShowStatus(true);
@@ -49,8 +49,17 @@ const NetworkStatusIndicator = () => {
       }
     };
 
-    const cleanup = initNetworkListener();
-    return () => cleanup.then(cleanupFn => cleanupFn?.());
+    let cleanup: (() => void) | undefined;
+    
+    initNetworkListener().then(cleanupFn => {
+      cleanup = cleanupFn;
+    });
+
+    return () => {
+      if (cleanup) {
+        cleanup();
+      }
+    };
   }, [isOnline]);
 
   return (

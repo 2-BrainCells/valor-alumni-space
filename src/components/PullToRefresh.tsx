@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { motion, PanInfo } from 'framer-motion';
 import { RefreshCw } from 'lucide-react';
-import { Haptics, ImpactStyle } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 interface PullToRefreshProps {
   onRefresh: () => Promise<void>;

@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { motion, PanInfo } from 'framer-motion';
 import { useSpring, animated } from 'react-spring';
 import { useDrag } from '@use-gesture/react';
 import { Heart, X, Bookmark, Share } from 'lucide-react';
-import { Haptics, ImpactStyle } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 interface Job {
   id: number;
@@ -33,6 +32,7 @@ interface SwipeableJobCardProps {
 const SwipeableJobCard = ({ job, onSwipeLeft, onSwipeRight, onBookmark, onShare }: SwipeableJobCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showActions, setShowActions] = useState(false);
+  const [longPressTimer, setLongPressTimer] = useState<NodeJS.Timeout | null>(null);
 
   const [{ x, rotate, scale }, api] = useSpring(() => ({
     x: 0,
@@ -93,6 +93,18 @@ const SwipeableJobCard = ({ job, onSwipeLeft, onSwipeRight, onBookmark, onShare 
     }
   };
 
+  const handleTouchStart = () => {
+    const timer = setTimeout(handleLongPress, 500);
+    setLongPressTimer(timer);
+  };
+
+  const handleTouchEnd = () => {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      setLongPressTimer(null);
+    }
+  };
+
   const handleBookmark = () => {
     setIsBookmarked(!isBookmarked);
     onBookmark(job);
@@ -116,8 +128,12 @@ const SwipeableJobCard = ({ job, onSwipeLeft, onSwipeRight, onBookmark, onShare 
         }}
         className="absolute inset-0 touch-none"
       >
-        <motion.div
-          onLongPress={handleLongPress}
+        <div
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleTouchStart}
+          onMouseUp={handleTouchEnd}
+          onMouseLeave={handleTouchEnd}
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 h-full overflow-hidden relative"
         >
           {/* Swipe Indicators */}
@@ -197,7 +213,7 @@ const SwipeableJobCard = ({ job, onSwipeLeft, onSwipeRight, onBookmark, onShare 
               {job.salary}
             </span>
           </div>
-        </motion.div>
+        </div>
       </animated.div>
 
       {/* Action Menu */}

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, Briefcase, Network, MessageSquare, User } from 'lucide-react';
-import { Haptics, ImpactStyle } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 const MobileBottomNav = () => {
   const location = useLocation();
