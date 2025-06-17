@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Settings, Users, BarChart3, LogOut, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -11,6 +11,17 @@ interface AdminHeaderProps {
 
 const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const navItems = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
@@ -19,28 +30,34 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
   ];
 
   return (
-    <header className="bg-white shadow-sm border-b">
+    <header className="bg-white shadow-sm border-b sticky top-0 z-40">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className={`flex items-center justify-between ${isMobile ? 'h-14' : 'h-16'}`}>
           {/* Logo & Brand */}
           <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">AC</span>
+            <div className={`bg-blue-600 rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-10 h-10'}`}>
+              <span className={`text-white font-bold ${isMobile ? 'text-sm' : 'text-lg'}`}>AC</span>
             </div>
-            <div>
+            <div className={isMobile ? 'hidden' : 'block'}>
               <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
               <p className="text-sm text-gray-500">Alumni College Network</p>
             </div>
+            {isMobile && (
+              <div>
+                <h1 className="text-lg font-semibold text-gray-900">Admin</h1>
+              </div>
+            )}
           </div>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className={`${isMobile ? 'hidden' : 'flex'} items-center space-x-1`}>
             {navItems.map((item) => (
               <Button
                 key={item.id}
                 variant={activeTab === item.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(item.id)}
                 className="flex items-center space-x-2"
+                size="sm"
               >
                 <item.icon className="h-4 w-4" />
                 <span>{item.label}</span>
@@ -49,33 +66,38 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
           </nav>
 
           {/* User Menu */}
-          <div className="flex items-center space-x-4">
-            <Avatar>
-              <AvatarFallback>AD</AvatarFallback>
-            </Avatar>
-            <div className="hidden md:block">
-              <p className="text-sm font-medium">Admin User</p>
-              <p className="text-xs text-gray-500">admin@college.edu</p>
-            </div>
+          <div className="flex items-center space-x-2">
+            {!isMobile && (
+              <>
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="text-xs">AD</AvatarFallback>
+                </Avatar>
+                <div className="hidden lg:block">
+                  <p className="text-sm font-medium">Admin User</p>
+                  <p className="text-xs text-gray-500">admin@college.edu</p>
+                </div>
+              </>
+            )}
             <Button variant="ghost" size="sm">
               <LogOut className="h-4 w-4" />
             </Button>
 
             {/* Mobile Menu */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <Menu className="h-4 w-4" />
-            </Button>
+            {isMobile && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        {menuOpen && (
-          <div className="md:hidden py-4 border-t">
+        {isMobile && menuOpen && (
+          <div className="py-4 border-t">
             <nav className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Button
@@ -86,6 +108,7 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
                     setMenuOpen(false);
                   }}
                   className="justify-start"
+                  size="sm"
                 >
                   <item.icon className="h-4 w-4 mr-2" />
                   {item.label}

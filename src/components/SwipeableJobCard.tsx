@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { motion, PanInfo } from 'framer-motion';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 import { Heart, X, Bookmark, Share } from 'lucide-react';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';

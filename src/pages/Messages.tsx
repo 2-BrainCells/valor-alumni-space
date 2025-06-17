@@ -1,10 +1,12 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import DashboardHeader from '../components/DashboardHeader';
 import Sidebar from '../components/Sidebar';
 import ConversationsList from '../components/ConversationsList';
 import ChatArea from '../components/ChatArea';
+import MobileBottomNav from '../components/MobileBottomNav';
+import NetworkStatusIndicator from '../components/NetworkStatusIndicator';
+import PullToRefresh from '../components/PullToRefresh';
 
 interface Conversation {
   id: string;
@@ -26,6 +28,8 @@ interface Message {
 
 const Messages = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   const [conversations] = useState<Conversation[]>([
     {
       id: '1',
@@ -94,13 +98,13 @@ const Messages = () => {
 
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(false);
   const [showConversations, setShowConversations] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobileView(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile) {
         setShowConversations(true);
       }
     };
@@ -109,6 +113,11 @@ const Messages = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const handleRefresh = async () => {
+    // Simulate refresh
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  };
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
@@ -126,7 +135,7 @@ const Messages = () => {
 
   const handleConversationSelect = (conversationId: string) => {
     setActiveConversation(conversationId);
-    if (isMobileView) {
+    if (isMobile) {
       setShowConversations(false);
     }
   };
@@ -139,67 +148,76 @@ const Messages = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <DashboardHeader 
-        sidebarOpen={sidebarOpen} 
-        setSidebarOpen={setSidebarOpen} 
-      />
+      <NetworkStatusIndicator />
+      
+      {/* Desktop Header */}
+      {!isMobile && (
+        <DashboardHeader 
+          sidebarOpen={sidebarOpen} 
+          setSidebarOpen={setSidebarOpen} 
+        />
+      )}
       
       <div className="flex">
-        {/* Sidebar */}
-        <Sidebar isOpen={sidebarOpen} />
+        {/* Desktop Sidebar */}
+        {!isMobile && <Sidebar isOpen={sidebarOpen} />}
         
         {/* Main Content */}
-        <main className="flex-1 lg:ml-64">
-          <div className="flex h-[calc(100vh-4rem)] bg-gray-50">
-            {/* Conversations Sidebar */}
-            <motion.div
-              initial={false}
-              animate={{
-                width: isMobileView ? (showConversations ? '100%' : '0%') : '30%',
-                opacity: isMobileView ? (showConversations ? 1 : 0) : 1
-              }}
-              className={`bg-white border-r border-gray-200 ${
-                isMobileView && !showConversations ? 'hidden' : 'block'
-              }`}
-            >
-              <ConversationsList
-                conversations={conversations}
-                activeConversation={activeConversation}
-                onConversationSelect={handleConversationSelect}
-              />
-            </motion.div>
-
-            {/* Chat Area */}
-            <motion.div
-              initial={false}
-              animate={{
-                width: isMobileView ? (showConversations ? '0%' : '100%') : '70%',
-                opacity: isMobileView ? (showConversations ? 0 : 1) : 1
-              }}
-              className={`flex flex-col ${
-                isMobileView && showConversations ? 'hidden' : 'block'
-              }`}
-            >
-              {activeConv && (
-                <ChatArea
-                  conversation={activeConv}
-                  messages={messages}
-                  newMessage={newMessage}
-                  setNewMessage={setNewMessage}
-                  onSendMessage={handleSendMessage}
-                  isTyping={isTyping}
-                  isMobileView={isMobileView}
-                  onBackToConversations={handleBackToConversations}
+        <main className={`flex-1 ${!isMobile ? 'lg:ml-64' : ''} ${isMobile ? 'pb-16' : ''}`}>
+          <PullToRefresh onRefresh={handleRefresh}>
+            <div className={`flex ${isMobile ? 'h-screen' : 'h-[calc(100vh-4rem)]'} bg-gray-50`}>
+              {/* Conversations Sidebar */}
+              <motion.div
+                initial={false}
+                animate={{
+                  width: isMobile ? (showConversations ? '100%' : '0%') : '30%',
+                  opacity: isMobile ? (showConversations ? 1 : 0) : 1
+                }}
+                className={`bg-white border-r border-gray-200 ${
+                  isMobile && !showConversations ? 'hidden' : 'block'
+                }`}
+              >
+                <ConversationsList
+                  conversations={conversations}
+                  activeConversation={activeConversation}
+                  onConversationSelect={handleConversationSelect}
                 />
-              )}
-            </motion.div>
-          </div>
+              </motion.div>
+
+              {/* Chat Area */}
+              <motion.div
+                initial={false}
+                animate={{
+                  width: isMobile ? (showConversations ? '0%' : '100%') : '70%',
+                  opacity: isMobile ? (showConversations ? 0 : 1) : 1
+                }}
+                className={`flex flex-col ${
+                  isMobile && showConversations ? 'hidden' : 'block'
+                }`}
+              >
+                {activeConv && (
+                  <ChatArea
+                    conversation={activeConv}
+                    messages={messages}
+                    newMessage={newMessage}
+                    setNewMessage={setNewMessage}
+                    onSendMessage={handleSendMessage}
+                    isTyping={isTyping}
+                    isMobileView={isMobile}
+                    onBackToConversations={handleBackToConversations}
+                  />
+                )}
+              </motion.div>
+            </div>
+          </PullToRefresh>
         </main>
       </div>
       
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
+      {/* Mobile Bottom Navigation */}
+      {isMobile && <MobileBottomNav />}
+      
+      {/* Desktop Sidebar Overlay */}
+      {!isMobile && sidebarOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
