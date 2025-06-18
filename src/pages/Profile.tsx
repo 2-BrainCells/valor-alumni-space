@@ -16,7 +16,7 @@ const Profile = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Header */}
       <DashboardHeader 
         sidebarOpen={sidebarOpen} 
@@ -33,13 +33,13 @@ const Profile = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="relative h-64 bg-gradient-to-r from-blue-500 to-blue-600"
+            className="relative h-64 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-700 dark:to-blue-800"
           >
-            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-black/20 dark:bg-black/40" />
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-4 text-white hover:bg-white/20"
+              className="absolute top-4 right-4 text-white hover:bg-white/20 dark:hover:bg-white/10"
             >
               <Camera className="h-5 w-5" />
             </Button>
@@ -47,15 +47,15 @@ const Profile = () => {
             {/* Profile Picture Overlay */}
             <div className="absolute -bottom-16 left-8">
               <div className="relative">
-                <div className="w-32 h-32 bg-white rounded-full border-4 border-white shadow-lg flex items-center justify-center">
-                  <span className="text-4xl font-bold text-blue-600">JS</span>
+                <div className="w-32 h-32 bg-white dark:bg-gray-800 rounded-full border-4 border-white dark:border-gray-700 shadow-lg flex items-center justify-center">
+                  <span className="text-4xl font-bold text-blue-600 dark:text-blue-400">JS</span>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute bottom-2 right-2 w-8 h-8 bg-white hover:bg-gray-100 shadow-md"
+                  className="absolute bottom-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md"
                 >
-                  <Camera className="h-4 w-4" />
+                  <Camera className="h-4 w-4 text-gray-700 dark:text-gray-300" />
                 </Button>
               </div>
             </div>

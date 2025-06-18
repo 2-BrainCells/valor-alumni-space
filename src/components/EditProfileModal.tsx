@@ -57,9 +57,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
         <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
+          <DialogTitle className="text-gray-900 dark:text-gray-100">Edit Profile</DialogTitle>
         </DialogHeader>
         
         <Form {...form}>
@@ -69,9 +69,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">Full Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,9 +83,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">Role</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,9 +97,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
               name="college"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>College</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">College</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -111,9 +111,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
               name="graduationYear"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Graduation Year</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">Graduation Year</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,9 +125,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
               name="currentPosition"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Current Position</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">Current Position</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -139,9 +139,9 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
               name="bio"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Bio</FormLabel>
+                  <FormLabel className="text-gray-700 dark:text-gray-300">Bio</FormLabel>
                   <FormControl>
-                    <Textarea {...field} rows={3} />
+                    <Textarea {...field} rows={3} className="border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,10 +149,10 @@ const EditProfileModal = ({ isOpen, onClose }: EditProfileModalProps) => {
             />
 
             <div className="flex justify-end gap-2 pt-4">
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button type="button" variant="outline" onClick={onClose} className="border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
                 Cancel
               </Button>
-              <Button type="submit">Save Changes</Button>
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">Save Changes</Button>
             </div>
           </form>
         </Form>
