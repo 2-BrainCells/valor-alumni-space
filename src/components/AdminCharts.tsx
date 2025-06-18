@@ -44,22 +44,24 @@ const AdminCharts = () => {
   return (
     <div className={`grid gap-6 ${isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
       {/* User Registrations Line Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle className={isMobile ? 'text-base' : 'text-lg'}>User Registrations Over Time</CardTitle>
+      <Card className="bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800">
+        <CardHeader className="border-b border-gray-100 dark:border-gray-800">
+          <CardTitle className={`${isMobile ? 'text-base' : 'text-lg'} text-gray-900 dark:text-gray-50`}>User Registrations Over Time</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <ChartContainer config={chartConfig} className={isMobile ? 'h-64' : 'h-80'}>
             <LineChart data={userRegistrationData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-gray-300 dark:text-gray-700" />
               <XAxis 
                 dataKey="month" 
                 fontSize={isMobile ? 10 : 12}
                 tick={{ fontSize: isMobile ? 10 : 12 }}
+                className="text-gray-600 dark:text-gray-400"
               />
               <YAxis 
                 fontSize={isMobile ? 10 : 12}
                 tick={{ fontSize: isMobile ? 10 : 12 }}
+                className="text-gray-600 dark:text-gray-400"
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Line 
@@ -75,11 +77,11 @@ const AdminCharts = () => {
       </Card>
 
       {/* Job Categories Pie Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle className={isMobile ? 'text-base' : 'text-lg'}>Job Categories Distribution</CardTitle>
+      <Card className="bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800">
+        <CardHeader className="border-b border-gray-100 dark:border-gray-800">
+          <CardTitle className={`${isMobile ? 'text-base' : 'text-lg'} text-gray-900 dark:text-gray-50`}>Job Categories Distribution</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <div className={isMobile ? 'h-64' : 'h-80'}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -98,8 +100,9 @@ const AdminCharts = () => {
                 <ChartTooltip />
                 {isMobile && (
                   <Legend 
-                    wrapperStyle={{ fontSize: '12px' }}
+                    wrapperStyle={{ fontSize: '12px', color: 'currentColor' }}
                     iconSize={8}
+                    className="text-gray-600 dark:text-gray-400"
                   />
                 )}
               </PieChart>
@@ -109,25 +112,27 @@ const AdminCharts = () => {
       </Card>
 
       {/* Monthly Activity Bar Chart */}
-      <Card className={isMobile ? 'col-span-1' : 'lg:col-span-2'}>
-        <CardHeader>
-          <CardTitle className={isMobile ? 'text-base' : 'text-lg'}>Monthly Activity Metrics</CardTitle>
+      <Card className={`${isMobile ? 'col-span-1' : 'lg:col-span-2'} bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800`}>
+        <CardHeader className="border-b border-gray-100 dark:border-gray-800">
+          <CardTitle className={`${isMobile ? 'text-base' : 'text-lg'} text-gray-900 dark:text-gray-50`}>Monthly Activity Metrics</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <ChartContainer config={chartConfig} className={isMobile ? 'h-64' : 'h-80'}>
             <BarChart data={monthlyActivityData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" stroke="currentColor" className="text-gray-300 dark:text-gray-700" />
               <XAxis 
                 dataKey="month" 
                 fontSize={isMobile ? 10 : 12}
                 tick={{ fontSize: isMobile ? 10 : 12 }}
+                className="text-gray-600 dark:text-gray-400"
               />
               <YAxis 
                 fontSize={isMobile ? 10 : 12}
                 tick={{ fontSize: isMobile ? 10 : 12 }}
+                className="text-gray-600 dark:text-gray-400"
               />
               <ChartTooltip content={<ChartTooltipContent />} />
-              {!isMobile && <Legend />}
+              {!isMobile && <Legend className="text-gray-600 dark:text-gray-400" />}
               <Bar dataKey="logins" fill="var(--color-logins)" />
               <Bar dataKey="jobViews" fill="var(--color-jobViews)" />
               <Bar dataKey="applications" fill="var(--color-applications)" />
