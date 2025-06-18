@@ -31,12 +31,12 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
   ];
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
       <div className="container mx-auto px-4">
         <div className={`flex items-center justify-between ${isMobile ? 'h-14' : 'h-16'}`}>
           {/* Logo & Brand */}
           <div className="flex items-center space-x-4">
-            <div className={`bg-blue-600 rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-10 h-10'}`}>
+            <div className={`bg-blue-600 dark:bg-blue-500 rounded-lg flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-10 h-10'}`}>
               <span className={`text-white font-bold ${isMobile ? 'text-sm' : 'text-lg'}`}>AC</span>
             </div>
             <div className={isMobile ? 'hidden' : 'block'}>
@@ -57,7 +57,11 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
                 key={item.id}
                 variant={activeTab === item.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(item.id)}
-                className="flex items-center space-x-2"
+                className={`flex items-center space-x-2 ${
+                  activeTab === item.id 
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600' 
+                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800'
+                }`}
                 size="sm"
               >
                 <item.icon className="h-4 w-4" />
@@ -71,8 +75,8 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
             <ThemeToggle />
             {!isMobile && (
               <>
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="text-xs">AD</AvatarFallback>
+                <Avatar className="h-8 w-8 bg-gray-200 dark:bg-gray-700">
+                  <AvatarFallback className="text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300">AD</AvatarFallback>
                 </Avatar>
                 <div className="hidden lg:block">
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Admin User</p>
@@ -80,7 +84,7 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
                 </div>
               </>
             )}
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800">
               <LogOut className="h-4 w-4" />
             </Button>
 
@@ -90,6 +94,7 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setMenuOpen(!menuOpen)}
+                className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800"
               >
                 <Menu className="h-4 w-4" />
               </Button>
@@ -99,7 +104,7 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
 
         {/* Mobile Navigation */}
         {isMobile && menuOpen && (
-          <div className="py-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="py-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
             <nav className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Button
@@ -109,7 +114,11 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
                     setActiveTab(item.id);
                     setMenuOpen(false);
                   }}
-                  className="justify-start"
+                  className={`justify-start ${
+                    activeTab === item.id 
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600' 
+                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800'
+                  }`}
                   size="sm"
                 >
                   <item.icon className="h-4 w-4 mr-2" />

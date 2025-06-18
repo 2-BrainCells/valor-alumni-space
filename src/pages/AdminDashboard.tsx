@@ -62,7 +62,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-black">
       <NetworkStatusIndicator />
       <AdminHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       

@@ -32,11 +32,11 @@ const Leaderboard: React.FC = () => {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Trophy className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500" />;
+        return <Trophy className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500 dark:text-yellow-400" />;
       case 2:
-        return <Medal className="h-4 w-4 lg:h-5 lg:w-5 text-gray-400" />;
+        return <Medal className="h-4 w-4 lg:h-5 lg:w-5 text-gray-400 dark:text-gray-500" />;
       case 3:
-        return <Award className="h-4 w-4 lg:h-5 lg:w-5 text-orange-500" />;
+        return <Award className="h-4 w-4 lg:h-5 lg:w-5 text-orange-500 dark:text-orange-400" />;
       default:
         return (
           <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
@@ -49,20 +49,20 @@ const Leaderboard: React.FC = () => {
   const getRankBadgeColor = (rank: number) => {
     switch (rank) {
       case 1:
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/30 dark:text-yellow-300';
       case 2:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
       case 3:
-        return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+        return 'bg-orange-100 text-orange-800 dark:bg-orange-950/30 dark:text-orange-300';
       default:
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-950/30 dark:text-blue-300';
     }
   };
 
   return (
-    <Card className="w-full h-full">
-      <CardHeader className="pb-2 lg:pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
+    <Card className="w-full h-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="pb-2 lg:pb-4 border-b border-gray-100 dark:border-gray-700">
+        <CardTitle className="flex items-center gap-2 text-lg lg:text-xl text-gray-900 dark:text-gray-100">
           <Trophy className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-600 dark:text-yellow-500" />
           <span className="truncate">Leaderboard</span>
         </CardTitle>
@@ -75,10 +75,10 @@ const Leaderboard: React.FC = () => {
                 key={user.id}
                 className={`
                   flex items-center gap-2 lg:gap-3 p-3 lg:p-4 border-b last:border-b-0 transition-colors
-                  border-gray-200 dark:border-gray-700
+                  border-gray-100 dark:border-gray-700
                   ${user.isCurrentUser 
-                    ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800' 
-                    : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                    ? 'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50' 
+                    : 'hover:bg-gray-50 dark:hover:bg-gray-750'
                   }
                 `}
               >
@@ -92,8 +92,8 @@ const Leaderboard: React.FC = () => {
                   </Badge>
                 </div>
                 
-                <Avatar className="h-8 w-8 flex-shrink-0">
-                  <AvatarFallback className="text-xs lg:text-sm">
+                <Avatar className="h-8 w-8 flex-shrink-0 bg-gray-200 dark:bg-gray-600">
+                  <AvatarFallback className="text-xs lg:text-sm bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300">
                     {user.initials}
                   </AvatarFallback>
                 </Avatar>
@@ -104,7 +104,7 @@ const Leaderboard: React.FC = () => {
                       {user.name}
                     </p>
                     {user.isCurrentUser && (
-                      <Badge variant="outline" className="text-xs flex-shrink-0">
+                      <Badge variant="outline" className="text-xs flex-shrink-0 border-blue-300 text-blue-700 dark:border-blue-600 dark:text-blue-300">
                         You
                       </Badge>
                     )}
@@ -112,7 +112,7 @@ const Leaderboard: React.FC = () => {
                 </div>
                 
                 <div className="text-right flex-shrink-0">
-                  <p className="font-semibold text-sm lg:text-base text-yellow-600 dark:text-yellow-500">
+                  <p className="font-semibold text-sm lg:text-base text-yellow-600 dark:text-yellow-400">
                     {user.coins.toLocaleString()}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">coins</p>
