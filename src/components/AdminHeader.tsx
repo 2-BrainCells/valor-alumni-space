@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Settings, Users, BarChart3, LogOut, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import ThemeToggle from './ThemeToggle';
 
 interface AdminHeaderProps {
   activeTab: string;
@@ -30,7 +31,7 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
   ];
 
   return (
-    <header className="bg-white shadow-sm border-b sticky top-0 z-40">
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
       <div className="container mx-auto px-4">
         <div className={`flex items-center justify-between ${isMobile ? 'h-14' : 'h-16'}`}>
           {/* Logo & Brand */}
@@ -39,12 +40,12 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
               <span className={`text-white font-bold ${isMobile ? 'text-sm' : 'text-lg'}`}>AC</span>
             </div>
             <div className={isMobile ? 'hidden' : 'block'}>
-              <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
-              <p className="text-sm text-gray-500">Alumni College Network</p>
+              <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Admin Dashboard</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Alumni College Network</p>
             </div>
             {isMobile && (
               <div>
-                <h1 className="text-lg font-semibold text-gray-900">Admin</h1>
+                <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Admin</h1>
               </div>
             )}
           </div>
@@ -67,14 +68,15 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
 
           {/* User Menu */}
           <div className="flex items-center space-x-2">
+            <ThemeToggle />
             {!isMobile && (
               <>
                 <Avatar className="h-8 w-8">
                   <AvatarFallback className="text-xs">AD</AvatarFallback>
                 </Avatar>
                 <div className="hidden lg:block">
-                  <p className="text-sm font-medium">Admin User</p>
-                  <p className="text-xs text-gray-500">admin@college.edu</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Admin User</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">admin@college.edu</p>
                 </div>
               </>
             )}
@@ -97,7 +99,7 @@ const AdminHeader = ({ activeTab, setActiveTab }: AdminHeaderProps) => {
 
         {/* Mobile Navigation */}
         {isMobile && menuOpen && (
-          <div className="py-4 border-t">
+          <div className="py-4 border-t border-gray-200 dark:border-gray-700">
             <nav className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Button

@@ -19,29 +19,29 @@ const CoinBalanceWidget: React.FC<CoinBalanceWidgetProps> = ({
   const progressPercentage = (dailyEarned / dailyGoal) * 100;
 
   return (
-    <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 border-yellow-200 w-full">
+    <Card className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/10 dark:to-orange-900/10 border-yellow-200 dark:border-yellow-800 w-full">
       <CardContent className="p-4 lg:p-6">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2 min-w-0">
             <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
               <Coins className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
             </div>
-            <span className="font-medium text-gray-700 text-sm lg:text-base truncate">Coin Balance</span>
+            <span className="font-medium text-gray-700 dark:text-gray-300 text-sm lg:text-base truncate">Coin Balance</span>
           </div>
-          <TrendingUp className="h-4 w-4 lg:h-5 lg:w-5 text-green-600 flex-shrink-0" />
+          <TrendingUp className="h-4 w-4 lg:h-5 lg:w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
         </div>
         
         <div className="mb-3 lg:mb-4">
-          <div className="text-2xl lg:text-3xl font-bold text-gray-900 break-all">
+          <div className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 break-all">
             <CountUp end={balance} duration={1.5} />
           </div>
-          <div className="text-sm lg:text-base text-gray-600 mt-1">
-            Daily earned: <span className="font-medium text-green-600">{dailyEarned}</span>
+          <div className="text-sm lg:text-base text-gray-600 dark:text-gray-400 mt-1">
+            Daily earned: <span className="font-medium text-green-600 dark:text-green-400">{dailyEarned}</span>
           </div>
         </div>
 
         <div className="space-y-2">
-          <div className="flex justify-between text-xs lg:text-sm text-gray-600">
+          <div className="flex justify-between text-xs lg:text-sm text-gray-600 dark:text-gray-400">
             <span>Daily Progress</span>
             <span className="font-medium">{dailyEarned}/{dailyGoal}</span>
           </div>
