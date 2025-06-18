@@ -4,6 +4,7 @@ import { Trophy, Medal, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { Badge } from './ui/badge';
+import { ScrollArea } from './ui/scroll-area';
 
 interface LeaderboardUser {
   id: string;
@@ -31,14 +32,14 @@ const Leaderboard: React.FC = () => {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Trophy className="h-5 w-5 text-yellow-500" />;
+        return <Trophy className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-500" />;
       case 2:
-        return <Medal className="h-5 w-5 text-gray-400" />;
+        return <Medal className="h-4 w-4 lg:h-5 lg:w-5 text-gray-400" />;
       case 3:
-        return <Award className="h-5 w-5 text-orange-500" />;
+        return <Award className="h-4 w-4 lg:h-5 lg:w-5 text-orange-500" />;
       default:
         return (
-          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center">
+          <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-100 rounded-full flex items-center justify-center">
             <span className="text-xs font-medium text-gray-600">{rank}</span>
           </div>
         );
@@ -59,28 +60,28 @@ const Leaderboard: React.FC = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Trophy className="h-5 w-5 text-yellow-600" />
-          Leaderboard
+    <Card className="w-full h-full">
+      <CardHeader className="pb-2 lg:pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
+          <Trophy className="h-4 w-4 lg:h-5 lg:w-5 text-yellow-600" />
+          <span className="truncate">Leaderboard</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="space-y-0">
-          {leaderboardData.map((user, index) => (
-            <div
-              key={user.id}
-              className={`
-                flex items-center gap-3 p-4 border-b last:border-b-0 transition-colors
-                ${user.isCurrentUser 
-                  ? 'bg-blue-50 border-blue-200' 
-                  : 'hover:bg-gray-50'
-                }
-              `}
-            >
-              <div className="flex items-center gap-3 flex-1">
-                <div className="flex items-center gap-2">
+        <ScrollArea className="h-[400px] lg:h-[500px]">
+          <div className="space-y-0">
+            {leaderboardData.map((user, index) => (
+              <div
+                key={user.id}
+                className={`
+                  flex items-center gap-2 lg:gap-3 p-3 lg:p-4 border-b last:border-b-0 transition-colors
+                  ${user.isCurrentUser 
+                    ? 'bg-blue-50 border-blue-200' 
+                    : 'hover:bg-gray-50'
+                  }
+                `}
+              >
+                <div className="flex items-center gap-2 flex-shrink-0">
                   {getRankIcon(user.rank)}
                   <Badge
                     variant="secondary"
@@ -90,35 +91,35 @@ const Leaderboard: React.FC = () => {
                   </Badge>
                 </div>
                 
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="text-sm">
+                <Avatar className="h-8 w-8 flex-shrink-0">
+                  <AvatarFallback className="text-xs lg:text-sm">
                     {user.initials}
                   </AvatarFallback>
                 </Avatar>
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-medium text-sm truncate">
+                    <p className="font-medium text-sm lg:text-base truncate">
                       {user.name}
                     </p>
                     {user.isCurrentUser && (
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="text-xs flex-shrink-0">
                         You
                       </Badge>
                     )}
                   </div>
                 </div>
+                
+                <div className="text-right flex-shrink-0">
+                  <p className="font-semibold text-sm lg:text-base text-yellow-600">
+                    {user.coins.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-gray-500">coins</p>
+                </div>
               </div>
-              
-              <div className="text-right">
-                <p className="font-semibold text-sm text-yellow-600">
-                  {user.coins.toLocaleString()}
-                </p>
-                <p className="text-xs text-gray-500">coins</p>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   );
