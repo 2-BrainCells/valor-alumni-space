@@ -13,12 +13,14 @@ type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   actualTheme: 'dark' | 'light';
+  toggleTheme: () => void;
 };
 
 const initialState: ThemeProviderState = {
   theme: 'system',
   setTheme: () => null,
   actualTheme: 'light',
+  toggleTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -42,6 +44,8 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
+    
+    // Remove previous theme classes with smooth transition
     root.classList.remove('light', 'dark');
 
     let resolvedTheme: 'dark' | 'light';
@@ -54,8 +58,15 @@ export function ThemeProvider({
       resolvedTheme = theme;
     }
 
+    // Add transition class for smooth theme switching
+    root.style.transition = 'color 0.3s ease, background-color 0.3s ease';
     root.classList.add(resolvedTheme);
     setActualTheme(resolvedTheme);
+
+    // Remove transition after animation completes
+    setTimeout(() => {
+      root.style.transition = '';
+    }, 300);
 
     // Listen for system theme changes when using system theme
     if (theme === 'system') {
@@ -63,8 +74,12 @@ export function ThemeProvider({
       const handleChange = (e: MediaQueryListEvent) => {
         const newTheme = e.matches ? 'dark' : 'light';
         root.classList.remove('light', 'dark');
+        root.style.transition = 'color 0.3s ease, background-color 0.3s ease';
         root.classList.add(newTheme);
         setActualTheme(newTheme);
+        setTimeout(() => {
+          root.style.transition = '';
+        }, 300);
       };
 
       mediaQuery.addEventListener('change', handleChange);
@@ -72,15 +87,26 @@ export function ThemeProvider({
     }
   }, [theme]);
 
+  const handleSetTheme = (newTheme: Theme) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(storageKey, newTheme);
+    }
+    setTheme(newTheme);
+  };
+
+  const toggleTheme = () => {
+    if (actualTheme === 'light') {
+      handleSetTheme('dark');
+    } else {
+      handleSetTheme('light');
+    }
+  };
+
   const value = {
     theme,
     actualTheme,
-    setTheme: (theme: Theme) => {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(storageKey, theme);
-      }
-      setTheme(theme);
-    },
+    setTheme: handleSetTheme,
+    toggleTheme,
   };
 
   return (
