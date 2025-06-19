@@ -81,13 +81,41 @@ const ChatArea = ({
   };
 
   // Convert ChatArea Message to MessageBubble Message format
-  const convertMessage = (message: Message) => ({
-    id: message.id,
-    text: message.text,
-    isBot: message.senderId !== 'me',
-    timestamp: new Date(message.timestamp),
-    type: 'text' as const
-  });
+  const convertMessage = (message: Message) => {
+    // Create a proper Date object for the timestamp
+    // Since the original timestamps are time strings like "10:30 AM", 
+    // we'll create a date for today with that time
+    const today = new Date();
+    const timeString = message.timestamp;
+    
+    // Try to parse the time string and create a proper date
+    let timestamp: Date;
+    try {
+      // Handle time formats like "10:30 AM" or "2:15 PM"
+      const [time, period] = timeString.split(' ');
+      const [hours, minutes] = time.split(':').map(Number);
+      
+      let adjustedHours = hours;
+      if (period === 'PM' && hours !== 12) {
+        adjustedHours += 12;
+      } else if (period === 'AM' && hours === 12) {
+        adjustedHours = 0;
+      }
+      
+      timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), adjustedHours, minutes);
+    } catch (error) {
+      // Fallback to current time if parsing fails
+      timestamp = new Date();
+    }
+
+    return {
+      id: message.id,
+      text: message.text,
+      isBot: message.senderId !== 'me',
+      timestamp: timestamp,
+      type: 'text' as const
+    };
+  };
 
   return (
     <div className="flex flex-col h-full bg-white">
