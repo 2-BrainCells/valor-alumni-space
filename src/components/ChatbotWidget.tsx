@@ -33,7 +33,7 @@ const ChatbotWidget = () => {
       {/* Floating Chat Button */}
       <motion.button
         onClick={toggleChat}
-        className="fixed bottom-6 right-6 w-15 h-15 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full shadow-lg hover:shadow-xl transition-shadow z-50 flex items-center justify-center"
+        className="fixed bottom-6 right-6 w-15 h-15 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50 flex items-center justify-center"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         animate={{
@@ -83,25 +83,25 @@ const ChatbotWidget = () => {
                 scale: isMobile ? 1 : 0.9 
               }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className={`fixed z-50 bg-white dark:bg-gray-950 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-800 ${
+              className={`fixed z-50 bg-white dark:bg-gray-900 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 transition-colors duration-300 ${
                 isMobile 
                   ? 'inset-x-4 inset-y-8' 
                   : 'bottom-24 right-6 w-96 h-[600px]'
               }`}
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 bg-gradient-to-r from-blue-500 to-purple-600 rounded-t-lg">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-t-lg">
                 <h3 className="text-lg font-semibold text-white">Alumni Assistant</h3>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={minimizeChat}
-                    className="p-1 hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+                    className="p-1 hover:bg-white hover:bg-opacity-20 rounded transition-colors duration-200"
                   >
                     <Minus className="w-4 h-4 text-white" />
                   </button>
                   <button
                     onClick={closeChat}
-                    className="p-1 hover:bg-white hover:bg-opacity-20 rounded transition-colors"
+                    className="p-1 hover:bg-white hover:bg-opacity-20 rounded transition-colors duration-200"
                   >
                     <X className="w-4 h-4 text-white" />
                   </button>
@@ -122,7 +122,7 @@ const ChatbotWidget = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-24 right-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg z-50 p-3 cursor-pointer"
+            className="fixed bottom-24 right-6 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-lg shadow-lg z-50 p-3 cursor-pointer transition-colors duration-300"
             onClick={() => setIsMinimized(false)}
           >
             <div className="flex items-center gap-2 text-white">
