@@ -1,80 +1,65 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, CheckCheck } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { format } from 'date-fns';
 
 interface Message {
   id: string;
   text: string;
-  senderId: string;
-  timestamp: string;
-  status: 'sent' | 'delivered' | 'read';
+  isBot: boolean;
+  timestamp: Date;
+  type?: 'text' | 'quick-reply' | 'card';
 }
 
 interface MessageBubbleProps {
   message: Message;
-  isOwn: boolean;
-  showAvatar: boolean;
-  senderName?: string;
 }
 
-const MessageBubble = ({ message, isOwn, showAvatar, senderName }: MessageBubbleProps) => {
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  };
-
-  const getStatusIcon = () => {
-    switch (message.status) {
-      case 'sent':
-        return <Check className="h-3 w-3" />;
-      case 'delivered':
-        return <CheckCheck className="h-3 w-3" />;
-      case 'read':
-        return <CheckCheck className="h-3 w-3 text-blue-500" />;
-      default:
-        return null;
-    }
-  };
+const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
+  const { text, isBot, timestamp, type } = message;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex ${isOwn ? 'justify-end' : 'justify-start'} mb-2`}
+      transition={{ duration: 0.3 }}
+      className={`flex ${isBot ? 'justify-start' : 'justify-end'} mb-4`}
     >
-      <div className={`flex items-end space-x-2 max-w-xs lg:max-w-md ${isOwn ? 'flex-row-reverse space-x-reverse' : ''}`}>
-        {!isOwn && showAvatar && (
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-gray-100 text-gray-600 text-xs">
-              {senderName ? getInitials(senderName) : 'U'}
-            </AvatarFallback>
-          </Avatar>
-        )}
-        
-        {!isOwn && !showAvatar && (
-          <div className="w-8" />
-        )}
-        
-        <div className={`flex flex-col ${isOwn ? 'items-end' : 'items-start'}`}>
-          <div
-            className={`px-4 py-2 rounded-2xl ${
-              isOwn
-                ? 'bg-blue-500 text-white rounded-br-md'
-                : 'bg-gray-100 text-gray-900 rounded-bl-md'
-            }`}
-          >
-            <p className="text-sm whitespace-pre-wrap">{message.text}</p>
-          </div>
-          
-          <div className={`flex items-center mt-1 space-x-1 ${isOwn ? 'flex-row-reverse space-x-reverse' : ''}`}>
-            <span className="text-xs text-gray-500">{message.timestamp}</span>
-            {isOwn && (
-              <span className="text-gray-500">
-                {getStatusIcon()}
-              </span>
-            )}
-          </div>
+      <div className={`max-w-[80%] ${isBot ? 'mr-8' : 'ml-8'}`}>
+        <div
+          className={`px-4 py-2 rounded-2xl ${
+            isBot
+              ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-bl-md'
+              : 'bg-blue-500 text-white rounded-br-md'
+          } ${type === 'card' ? 'rounded-lg' : ''}`}
+        >
+          {type === 'card' ? (
+            <div className="space-y-3">
+              <p className="text-sm">{text}</p>
+              <div className="bg-white bg-opacity-10 rounded-lg p-3 space-y-2">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-medium text-sm">Senior React Developer</h4>
+                    <p className="text-xs opacity-90">TechCorp Inc.</p>
+                  </div>
+                  <span className="text-xs bg-green-400 text-green-900 px-2 py-1 rounded-full">
+                    New
+                  </span>
+                </div>
+                <p className="text-xs opacity-80">$120k - $150k • Remote</p>
+                <button className="w-full bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs py-2 rounded-lg transition-colors">
+                  View Details
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm whitespace-pre-wrap">{text}</p>
+          )}
+        </div>
+        <div className={`flex ${isBot ? 'justify-start' : 'justify-end'} mt-1`}>
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            {format(timestamp, 'HH:mm')}
+          </span>
         </div>
       </div>
     </motion.div>
