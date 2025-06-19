@@ -86,7 +86,7 @@ const ChatbotWidget = () => {
               className={`fixed z-50 bg-white dark:bg-gray-900 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 transition-colors duration-300 ${
                 isMobile 
                   ? 'inset-x-4 inset-y-8' 
-                  : 'bottom-24 right-6 w-96 h-[600px]'
+                  : 'bottom-24 right-6 w-[420px] h-[650px] max-w-[90vw] max-h-[80vh]'
               }`}
             >
               {/* Header */}
