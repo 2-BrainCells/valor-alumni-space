@@ -80,6 +80,15 @@ const ChatArea = ({
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
+  // Convert ChatArea Message to MessageBubble Message format
+  const convertMessage = (message: Message) => ({
+    id: message.id,
+    text: message.text,
+    isBot: message.senderId !== 'me',
+    timestamp: new Date(message.timestamp),
+    type: 'text' as const
+  });
+
   return (
     <div className="flex flex-col h-full bg-white">
       {/* Chat Header */}
@@ -124,13 +133,10 @@ const ChatArea = ({
       {/* Messages Container */}
       <ScrollArea ref={scrollAreaRef} className="flex-1 px-4">
         <div className="py-4 space-y-4">
-          {messages.map((message, index) => (
+          {messages.map((message) => (
             <MessageBubble
               key={message.id}
-              message={message}
-              isOwn={message.senderId === 'me'}
-              showAvatar={index === 0 || messages[index - 1].senderId !== message.senderId}
-              senderName={message.senderId !== 'me' ? conversation.name : undefined}
+              message={convertMessage(message)}
             />
           ))}
           
