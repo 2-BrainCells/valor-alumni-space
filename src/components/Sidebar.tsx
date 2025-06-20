@@ -37,11 +37,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
     hidden: { opacity: 0, x: -20 },
     visible: {
       opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeOut"
-      }
+      x: 0
     }
   };
 
@@ -59,7 +55,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
                 initial="hidden"
                 animate="visible"
                 variants={itemVariants}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.05, duration: 0.3, ease: "easeOut" }}
                 style={{ '--index': index } as React.CSSProperties}
               >
                 <Link
@@ -100,7 +96,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
                 initial="hidden"
                 animate="visible"
                 variants={itemVariants}
-                transition={{ delay: index * 0.05 }}
+                transition={{ delay: index * 0.05, duration: 0.3, ease: "easeOut" }}
                 style={{ '--index': index } as React.CSSProperties}
               >
                 <Link

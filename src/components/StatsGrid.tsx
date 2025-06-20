@@ -43,11 +43,7 @@ const StatsGrid = () => {
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
+      scale: 1
     }
   };
 
@@ -62,6 +58,7 @@ const StatsGrid = () => {
         <motion.div
           key={stat.label}
           variants={itemVariants}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           whileHover={{ scale: 1.02, y: -2 }}
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 transition-theme hover-glow card-elevated"
           style={{ '--row': Math.floor(index / 3) } as React.CSSProperties}
