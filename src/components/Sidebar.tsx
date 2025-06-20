@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
       x: 0,
       transition: {
         duration: 0.3,
-        ease: "cubic-bezier(0.4, 0, 0.2, 1)"
+        ease: "easeOut"
       }
     }
   };
@@ -87,7 +87,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
       <motion.aside
         variants={sidebarVariants}
         animate={isOpen ? 'open' : 'closed'}
-        transition={{ type: 'tween', duration: 0.3, ease: "cubic-bezier(0.4, 0, 0.2, 1)" }}
+        transition={{ type: 'tween', duration: 0.3, ease: "easeOut" }}
         className="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 pt-16 lg:hidden transition-theme glass-effect"
       >
         <nav className="p-4 space-y-2">
