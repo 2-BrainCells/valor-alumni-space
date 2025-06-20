@@ -35,15 +35,14 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
 
   const itemVariants = {
     hidden: { opacity: 0, x: -20 },
-    visible: (index: number) => ({
+    visible: {
       opacity: 1,
       x: 0,
       transition: {
-        delay: index * 0.05, // 50ms stagger
         duration: 0.3,
         ease: [0.4, 0, 0.2, 1]
       }
-    })
+    }
   };
 
   return (
@@ -60,6 +59,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
                 initial="hidden"
                 animate="visible"
                 variants={itemVariants}
+                transition={{ delay: index * 0.05 }}
                 style={{ '--index': index } as React.CSSProperties}
               >
                 <Link
@@ -100,6 +100,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
                 initial="hidden"
                 animate="visible"
                 variants={itemVariants}
+                transition={{ delay: index * 0.05 }}
                 style={{ '--index': index } as React.CSSProperties}
               >
                 <Link
