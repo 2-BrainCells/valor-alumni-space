@@ -42,19 +42,6 @@ export function ThemeProvider({
 
   const [actualTheme, setActualTheme] = useState<'dark' | 'light'>('light');
 
-  // Preload theme assets
-  useEffect(() => {
-    const preloadLink = document.createElement('link');
-    preloadLink.rel = 'preload';
-    preloadLink.as = 'style';
-    preloadLink.href = '/theme-assets.css';
-    document.head.appendChild(preloadLink);
-
-    return () => {
-      document.head.removeChild(preloadLink);
-    };
-  }, []);
-
   useEffect(() => {
     const root = window.document.documentElement;
     
@@ -71,29 +58,9 @@ export function ThemeProvider({
       resolvedTheme = theme;
     }
 
-    // Apply will-change for smooth transitions
-    root.style.willChange = 'color, background-color';
-    
     // Add the new theme class
     root.classList.add(resolvedTheme);
     setActualTheme(resolvedTheme);
-
-    // Screen reader announcement for theme change
-    const announcement = document.createElement('div');
-    announcement.className = 'theme-announcement';
-    announcement.setAttribute('aria-live', 'polite');
-    announcement.textContent = `Theme changed to ${resolvedTheme} mode`;
-    document.body.appendChild(announcement);
-
-    // Clean up will-change and announcement after transition
-    const cleanup = () => {
-      root.style.willChange = '';
-      if (document.body.contains(announcement)) {
-        document.body.removeChild(announcement);
-      }
-    };
-
-    const timer = setTimeout(cleanup, 500);
 
     // Listen for system theme changes when using system theme
     if (theme === 'system') {
@@ -101,33 +68,15 @@ export function ThemeProvider({
       const handleChange = (e: MediaQueryListEvent) => {
         const newTheme = e.matches ? 'dark' : 'light';
         root.classList.remove('light', 'dark');
-        root.style.willChange = 'color, background-color';
         root.classList.add(newTheme);
         setActualTheme(newTheme);
-        
-        // Announce system theme change
-        const systemAnnouncement = document.createElement('div');
-        systemAnnouncement.className = 'theme-announcement';
-        systemAnnouncement.setAttribute('aria-live', 'polite');
-        systemAnnouncement.textContent = `System theme changed to ${newTheme} mode`;
-        document.body.appendChild(systemAnnouncement);
-        
-        setTimeout(() => {
-          root.style.willChange = '';
-          if (document.body.contains(systemAnnouncement)) {
-            document.body.removeChild(systemAnnouncement);
-          }
-        }, 500);
       };
 
       mediaQuery.addEventListener('change', handleChange);
       return () => {
         mediaQuery.removeEventListener('change', handleChange);
-        clearTimeout(timer);
       };
     }
-
-    return () => clearTimeout(timer);
   }, [theme]);
 
   const handleSetTheme = (newTheme: Theme) => {
