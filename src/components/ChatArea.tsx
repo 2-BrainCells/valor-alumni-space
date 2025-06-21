@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, MoreVertical, Smile, Paperclip, Send } from 'lucide-react';
@@ -83,15 +82,11 @@ const ChatArea = ({
   // Convert ChatArea Message to MessageBubble Message format
   const convertMessage = (message: Message) => {
     // Create a proper Date object for the timestamp
-    // Since the original timestamps are time strings like "10:30 AM", 
-    // we'll create a date for today with that time
     const today = new Date();
     const timeString = message.timestamp;
     
-    // Try to parse the time string and create a proper date
     let timestamp: Date;
     try {
-      // Handle time formats like "10:30 AM" or "2:15 PM"
       const [time, period] = timeString.split(' ');
       const [hours, minutes] = time.split(':').map(Number);
       
@@ -104,7 +99,6 @@ const ChatArea = ({
       
       timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), adjustedHours, minutes);
     } catch (error) {
-      // Fallback to current time if parsing fails
       timestamp = new Date();
     }
 
@@ -118,16 +112,16 @@ const ChatArea = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-surface-theme transition-theme">
       {/* Chat Header */}
-      <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+      <div className="p-4 border-b border-primary-theme bg-surface-theme flex-shrink-0">
         <div className="flex items-center space-x-3">
           {isMobileView && (
             <Button
               variant="ghost"
               size="icon"
               onClick={onBackToConversations}
-              className="mr-2"
+              className="mr-2 text-primary-theme hover:bg-elevated-theme"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -136,23 +130,23 @@ const ChatArea = ({
           <div className="relative">
             <Avatar className="h-10 w-10">
               <AvatarImage src={conversation.avatar} />
-              <AvatarFallback className="bg-blue-100 text-blue-600">
+              <AvatarFallback className="bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
                 {getInitials(conversation.name)}
               </AvatarFallback>
             </Avatar>
             {conversation.isOnline && (
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-surface-theme rounded-full"></div>
             )}
           </div>
           
           <div className="flex-1">
-            <h3 className="font-medium text-gray-900">{conversation.name}</h3>
-            <p className="text-sm text-gray-500">
+            <h3 className="font-medium text-primary-theme">{conversation.name}</h3>
+            <p className="text-sm text-secondary-theme">
               {conversation.isOnline ? 'Online' : 'Last seen 2h ago'}
             </p>
           </div>
           
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="text-primary-theme hover:bg-elevated-theme">
             <MoreVertical className="h-5 w-5" />
           </Button>
         </div>
@@ -174,9 +168,9 @@ const ChatArea = ({
       </ScrollArea>
 
       {/* Message Input */}
-      <div className="p-4 border-t border-gray-200 bg-white flex-shrink-0">
+      <div className="p-4 border-t border-primary-theme bg-surface-theme flex-shrink-0">
         <div className="flex items-end space-x-2">
-          <Button variant="ghost" size="icon" className="mb-2">
+          <Button variant="ghost" size="icon" className="mb-2 text-primary-theme hover:bg-elevated-theme">
             <Paperclip className="h-5 w-5" />
           </Button>
           
@@ -187,13 +181,13 @@ const ChatArea = ({
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="resize-none min-h-[40px] max-h-[120px] pr-12"
+              className="resize-none min-h-[40px] max-h-[120px] pr-12 input-theme"
               rows={1}
             />
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-2 bottom-2"
+              className="absolute right-2 bottom-2 text-primary-theme hover:bg-elevated-theme"
             >
               <Smile className="h-5 w-5" />
             </Button>
@@ -202,7 +196,7 @@ const ChatArea = ({
           <Button
             onClick={onSendMessage}
             disabled={!newMessage.trim()}
-            className="mb-2"
+            className="mb-2 btn-primary-theme"
           >
             <Send className="h-4 w-4" />
           </Button>

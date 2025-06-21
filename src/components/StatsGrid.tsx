@@ -9,22 +9,25 @@ const StatsGrid = () => {
       icon: Briefcase,
       label: 'Available Jobs',
       value: '24',
-      color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400',
-      iconBg: 'bg-blue-100 dark:bg-blue-800/50',
+      gradient: 'from-blue-500 to-blue-600',
+      iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+      textColor: 'text-blue-600 dark:text-blue-400',
     },
     {
       icon: Users,
       label: 'Connections',
       value: '156',
-      color: 'bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400',
-      iconBg: 'bg-green-100 dark:bg-green-800/50',
+      gradient: 'from-green-500 to-green-600',
+      iconBg: 'bg-green-100 dark:bg-green-900/30',
+      textColor: 'text-green-600 dark:text-green-400',
     },
     {
       icon: Coins,
       label: 'Coins',
       value: '320',
-      color: 'bg-yellow-50 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400',
-      iconBg: 'bg-yellow-100 dark:bg-yellow-800/50',
+      gradient: 'from-yellow-500 to-yellow-600',
+      iconBg: 'bg-yellow-100 dark:bg-yellow-900/30',
+      textColor: 'text-yellow-600 dark:text-yellow-400',
     },
   ];
 
@@ -52,7 +55,7 @@ const StatsGrid = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="grid grid-cols-1 md:grid-cols-3 gap-6 cascade-children"
+      className="grid grid-cols-1 md:grid-cols-3 gap-6"
     >
       {stats.map((stat, index) => (
         <motion.div
@@ -60,16 +63,15 @@ const StatsGrid = () => {
           variants={itemVariants}
           transition={{ duration: 0.5, ease: "easeOut" }}
           whileHover={{ scale: 1.02, y: -2 }}
-          className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 transition-theme hover-glow card-elevated"
-          style={{ '--row': Math.floor(index / 3) } as React.CSSProperties}
+          className="card-theme p-6 interactive-glow"
         >
           <div className="flex items-center">
             <div className={`p-3 rounded-lg transition-theme ${stat.iconBg}`}>
-              <stat.icon className={`h-6 w-6 transition-fast ${stat.color.split(' ').slice(1, 3).join(' ')}`} />
+              <stat.icon className={`h-6 w-6 transition-fast ${stat.textColor}`} />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-300 transition-fast">{stat.label}</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 transition-fast">{stat.value}</p>
+              <p className="text-sm font-medium text-secondary-theme transition-fast">{stat.label}</p>
+              <p className="text-2xl font-bold text-primary-theme transition-fast">{stat.value}</p>
             </div>
           </div>
         </motion.div>

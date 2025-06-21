@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import DashboardHeader from '../components/DashboardHeader';
@@ -148,7 +147,7 @@ const Messages = () => {
   const activeConv = conversations.find(c => c.id === activeConversation);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-primary-theme text-primary-theme transition-theme">
       <NetworkStatusIndicator />
       
       {/* Desktop Header */}
@@ -166,7 +165,7 @@ const Messages = () => {
         {/* Main Content */}
         <main className={`flex-1 ${!isMobile ? 'lg:ml-64' : ''} ${isMobile ? 'pb-16' : ''} overflow-hidden`}>
           <PullToRefresh onRefresh={handleRefresh}>
-            <div className={`flex ${isMobile ? 'h-screen' : 'h-[calc(100vh-4rem)]'} bg-gray-50`}>
+            <div className={`flex ${isMobile ? 'h-screen' : 'h-[calc(100vh-4rem)]'} bg-primary-theme`}>
               {/* Conversations Sidebar */}
               <motion.div
                 initial={false}
@@ -174,7 +173,7 @@ const Messages = () => {
                   width: isMobile ? (showConversations ? '100%' : '0%') : '30%',
                   opacity: isMobile ? (showConversations ? 1 : 0) : 1
                 }}
-                className={`bg-white border-r border-gray-200 ${
+                className={`bg-surface-theme border-r border-primary-theme transition-theme ${
                   isMobile && !showConversations ? 'hidden' : 'block'
                 } overflow-hidden`}
               >
@@ -192,7 +191,7 @@ const Messages = () => {
                   width: isMobile ? (showConversations ? '0%' : '100%') : '70%',
                   opacity: isMobile ? (showConversations ? 0 : 1) : 1
                 }}
-                className={`flex flex-col ${
+                className={`flex flex-col bg-surface-theme transition-theme ${
                   isMobile && showConversations ? 'hidden' : 'block'
                 } overflow-hidden`}
               >
